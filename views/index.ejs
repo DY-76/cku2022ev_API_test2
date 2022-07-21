@@ -4,8 +4,47 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script type='text/javascript' src='/javascripts/JsonFunc.js'></script>
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+      // ajax 부분
+      $(document).ready(function(){
+        $('#getMethod').click(function() {
+          var get = 'GET METHOD CALL';
+          //Ajax GET Method TEST
+          $.ajax({
+            url: '/server/testGet',
+            dataType: 'json',
+            type: 'GET',
+            data: {data:get},
+            success: function(result) {
+              //result 수신 시
+              if (result) {
+                $('#get_output').html(result.result);
+              }
+            }
+          });
+        });
 
+        $('#postMethod').click(function() {
+          var post = 'POST METHOD CALL';
+          //Ajax POST Method TEST
+          $.ajax({
+            url: '/server/testPost',
+            dataType: 'json',
+            type: 'POST',
+            data: {data:post},
+            success: function(result) {
+              //result 수신 시
+              if (result) {
+                $('#post_output').html(result.result);
+              }
+            }
+          });
+        });
+
+      });
+    </script>
+    <script>
       //API 부분
       var xhr = new XMLHttpRequest();
       parser = new DOMParser();
@@ -20,8 +59,6 @@
         if (this.readyState === 4) {
           alert('Status: '+this.status+'nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'nBody: '+this.responseText);
           const responseJson = xml2json(parser.parseFromString(this.response, "text/html"));
-          console.log(typeof(responseJson['HTML']['BODY']['RESPONSE']['ITEMS']['ITEM']));
-          console.log(responseJson['HTML']['BODY']['RESPONSE']['ITEMS']['ITEM']);
           var csv = jsonToCSV(responseJson['HTML']['BODY']['RESPONSE']['ITEMS']['ITEM']);
 
           //한글 처리를 해주기 위해 BOM 추가하기
@@ -40,12 +77,43 @@
           });
         }
       };
+      // xhr.send('');
 
-      xhr.send('');
+
+      // 팝업오픈하여 폼데이터 Post 전송
+      function openPop(){
+        const popupTitle = "Kakao Map Popup"
+        window.open("/map", popupTitle, "width=515px,height=415px") ;
+
+        var frmData = document.frmData ;
+        frmData.target = popupTitle ;
+        frmData.action = "/map" ;
+        frmData.submit() ;
+      }
+
     </script>
   </head>
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <form name="frmData" id="frmData" method="post">
+      <input type="text" name="name" id="name" value="Data" />
+      <input type="text" name="id" id="id" value="Data2" />
+    </form>
+    <a href="#" onClick="openPop();">Popup Open</a>
+
+    <h1>Ajax 기본 테스트</h1>
+    <div style="border: 3px solid gray; width: 180px;">
+      <h2>GET</h2>
+      <button id='getMethod'>GET</button>
+      <p id ='get_output'>get</p>
+    </div>
+
+    <div style="border: 3px solid gray; width: 180px;">
+      <h2>POST</h2>
+      <button id='postMethod'>POST</button>
+      <p id ='post_output'>post</p>
+    </div>
+
   </body>
 </html>
