@@ -13,12 +13,12 @@ router.post('/csv2server', function(req, res, next) {
 router.post('/testPost', function(req, res, next) {
   const data = req.body.data;
   console.log("testPost_Success!")
-  res.send({result:"testPost_Success!"});
+  res.send({result:data});
 });
 router.get('/testGet', function(req, res, next) {
-  const data = req.body.data;
+  const data = req.query.data;
   console.log("testGet_Success!")
-  res.send({result:"testGet_Success!"});
+  res.send({result:data});
 });
 
 module.exports = router;
