@@ -29,3 +29,5 @@ API 이슈로 인해 새롭게 작업하고 있는 cku2022ev_API_test2 입니다
 `2022.07.20` XML2JSON - JsonFunc 생성
 
 `2022.07.18` API 데이터 수집 코드 구현
+
+`2022.07.21` AJAX, POPUP, Kakao Map 구현
